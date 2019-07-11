@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>Send Message</p>
+<form action="/message/submit" method="post" target="dummyframe">
+    Queue Manager Name:<input type="text" name="qm">
+    <br>
+    UserId:<input type="text" name="userId">
+    <br>
+    Password:<input type="text" name="password">
+    <br>
+    Channel Name:<input type="text" name="channel">
+    <br>
+    HostName:<input type="text" name="host">
+    <br>
+    Port:<input type="text" name="port">
+    <br>
+    Queue:<input type="text" name="queue">
+    <br>
+    Message Body:<textarea cols="40" rows="5" name="body"></textarea>
+    <br>
+    <input type="submit" value="Submit">
+</form>
+<br>
+<br>
+<br>
+<iframe width="0" height="0" border="0" name="dummyframe" id="dummyframe"></iframe>
+</body>
+</html>
