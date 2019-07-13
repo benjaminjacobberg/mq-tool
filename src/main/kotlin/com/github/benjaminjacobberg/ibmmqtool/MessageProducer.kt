@@ -1,9 +1,6 @@
 package com.github.benjaminjacobberg.ibmmqtool
 
-import com.ibm.msg.client.jms.JmsFactoryFactory
-import com.ibm.msg.client.wmq.WMQConstants
 import org.springframework.stereotype.Component
-import javax.jms.JMSContext
 import javax.jms.JMSProducer
 import javax.jms.Queue
 

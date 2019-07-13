@@ -1,17 +1,33 @@
 package com.github.benjaminjacobberg.ibmmqtool
 
-import com.ibm.msg.client.jms.internal.JmsConsumerImpl
 import org.springframework.stereotype.Component
+import java.util.*
+import javax.jms.JMSConsumer
 import javax.jms.JMSContext
 import javax.jms.Queue
+import javax.jms.QueueBrowser
+import kotlin.collections.ArrayList
 
 @Component
 class MessageConsumer : IbmMqConnection() {
-    fun scrape(size: Int, connectionInformation: ConnectionInformation): List<String> {
+    fun scrape(size: Int, connectionInformation: ConnectionInformation): List<Message> {
         val (context: JMSContext, queue: Queue) = queueConnection(connectionInformation)
-        val consumer: JmsConsumerImpl = context.createConsumer(queue) as JmsConsumerImpl
+        val browser: QueueBrowser = context.createBrowser(queue)
 
-        TODO("Need to take a small peek at what's on the queue without removing any messages.")
+        val mutableIterator: MutableIterator<javax.jms.Message?> = browser.enumeration.asIterator() as MutableIterator<javax.jms.Message?>
+        val messages: MutableList<Message> = ArrayList()
+
+        var i: Int = 0
+        for (m: javax.jms.Message? in mutableIterator) {
+            if (i >= size) {
+                break
+            }
+            val body: String = m?.getBody(String::class.java) ?: continue
+            messages.add(Message(body))
+            i++
+        }
+
+        return messages
     }
 
 }

@@ -11,12 +11,25 @@
     <td><a href="send.html">send message</a></td>
     <td><a href="view.html">list message</a></td>
 </tr>
-<h2>Send Message</h2>
-<form action="/message" method="post" target="dummyframe">
+<h2>View Messages</h2>
+<form action="/message"
+      method="get"
+      target="dummyframe"
+      onsubmit="this.action = this.action
+      + '/' + this.amount.value
+      + '/connection/details/host/' + this.host.value
+      + '/port/' + this.port.value
+      + '/channel/' + this.channel.value
+      + '/queue_manager/' + this.qm.value
+      + '/username/' + this.userId.value
+      + '/password/' + this.password.value
+      + '/queue/' + this.queue.value;">
     <table>
         <thead>
-        <th>Name</th>
-        <th>Value</th>
+        <tr>
+            <th>Name</th>
+            <th>Value</th>
+        </tr>
         </thead>
         <tr>
             <td>Queue Manager Name:</td>
@@ -47,8 +60,8 @@
             <td><input type="text" name="queue" value="DEV.QUEUE.1"></td>
         </tr>
         <tr>
-            <td>Message Body:</td>
-            <td><input type="text" name="body"></td>
+            <td>Amount:</td>
+            <td><input type="text" name="amount" value="10"></td>
         </tr>
         <tr>
             <td></td>
@@ -56,6 +69,5 @@
         </tr>
     </table>
 </form>
-<iframe width="0" height="0" border="0" name="dummyframe" id="dummyframe"></iframe>
 </body>
 </html>
