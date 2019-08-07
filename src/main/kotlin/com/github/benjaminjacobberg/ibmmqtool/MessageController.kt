@@ -22,6 +22,7 @@ class MessageController(private val messageService: MessageService) {
                    @RequestParam(name = "password", required = false) password: String?,
                    @RequestParam(name = "queue") queue: String): List<Message> {
         val connectionInformation = ConnectionInformation(host = host, port = port, channel = channel, qm = qm, userId = userId, password = password, queue = queue)
+
         return messageService.get(size, connectionInformation)
     }
 
