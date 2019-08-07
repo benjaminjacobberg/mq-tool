@@ -5,5 +5,5 @@ data class ConnectionInformation(val host: String,
                                  val channel: String,
                                  val qm: String,
                                  val userId: String,
-                                 val password: String,
+                                 val password: String?,
                                  val queue: String)

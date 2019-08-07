@@ -1,12 +1,9 @@
 package com.github.benjaminjacobberg.ibmmqtool
 
 import org.springframework.stereotype.Component
-import java.util.*
-import javax.jms.JMSConsumer
 import javax.jms.JMSContext
 import javax.jms.Queue
 import javax.jms.QueueBrowser
-import kotlin.collections.ArrayList
 
 @Component
 class MessageConsumer : IbmMqConnection() {
@@ -23,7 +20,10 @@ class MessageConsumer : IbmMqConnection() {
                 break
             }
             val body: String = m?.getBody(String::class.java) ?: continue
-            messages.add(Message(body))
+            val jmsMessageId: String = m.jmsMessageID
+            val header: MessageHeader = MessageHeader(jmsMessageId, "")
+            val message: Message = Message(header, body)
+            messages.add(message)
             i++
         }
 

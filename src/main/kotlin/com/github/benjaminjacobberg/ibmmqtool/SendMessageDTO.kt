@@ -5,6 +5,6 @@ data class SendMessageDTO(val host: String,
                           val channel: String,
                           val qm: String,
                           val userId: String,
-                          val password: String,
+                          val password: String?,
                           val queue: String,
                           val body: String)
