@@ -9,8 +9,8 @@ import javax.jms.Queue
 @Component
 class MessageProducer : IbmMqConnection() {
     fun put(message: Message, connectionInformation: ConnectionInformation) {
-        val (context: JMSContext, destination: Queue) = queueConnection(connectionInformation)
+        val (context: JMSContext, queue: Queue) = queueConnection(connectionInformation)
         val producer: JMSProducer = context.createProducer()
-        producer.send(destination, message.body)
+        producer.send(queue, message.body)
     }
 }

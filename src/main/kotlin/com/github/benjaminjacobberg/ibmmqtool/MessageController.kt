@@ -26,4 +26,17 @@ class MessageController(private val messageService: MessageService) {
         return messageService.get(size, connectionInformation)
     }
 
+    @GetMapping(value = ["/message/stats"])
+    fun getMessage(@RequestParam(name = "host") host: String,
+                   @RequestParam(name = "port") port: Int,
+                   @RequestParam(name = "channel") channel: String,
+                   @RequestParam(name = "qm") qm: String,
+                   @RequestParam(name = "userId") userId: String,
+                   @RequestParam(name = "password", required = false) password: String?,
+                   @RequestParam(name = "queue") queue: String): QueueInfo {
+        val connectionInformation = ConnectionInformation(host = host, port = port, channel = channel, qm = qm, userId = userId, password = password, queue = queue)
+
+        return messageService.info(connectionInformation)
+    }
+
 }
