@@ -1,16 +1,18 @@
 package com.github.benjaminjacobberg.ibmmqtool
 
 import org.springframework.stereotype.Component
+import javax.jms.ConnectionFactory
 import javax.jms.JMSContext
 import javax.jms.JMSProducer
 import javax.jms.Queue
 
-
 @Component
 class MessageProducer : IbmMqConnection() {
     fun put(message: Message, connectionInformation: ConnectionInformation) {
-        val (context: JMSContext, queue: Queue) = queueConnection(connectionInformation)
-        val producer: JMSProducer = context.createProducer()
-        producer.send(queue, message.body)
+        val connectionFactory: ConnectionFactory = connectionFactory(connectionInformation)
+        val jmsContext: JMSContext = connectionFactory.createContext()
+        val destination: Queue = jmsContext.createQueue("queue:///${connectionInformation.queue}?targetClient=1")
+        val producer: JMSProducer = jmsContext.createProducer()
+        producer.send(destination, message.body)
     }
 }
