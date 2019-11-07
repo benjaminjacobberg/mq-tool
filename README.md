@@ -19,5 +19,16 @@ $ curl -v -w "\n" 'localhost:7070/message/stats?host=localhost&port=1414&channel
 SUMMARY
 -------
 
-A simple web application tool for IBM MQ that allows you to easily put a message on a queue.
-(I made this during my lunch break, so please don't be too harsh on my code.)
+This is a very simple web application for performing basic operations on a queue.
+
+Current Operations:
+- Put a message
+- List messages
+- Get a message
+
+TODO Operations:
+- Delete a message
+
+TODO Enhancements:
+- Retreive message properties and headers
+- Set property and header values when putting a message on a queue
