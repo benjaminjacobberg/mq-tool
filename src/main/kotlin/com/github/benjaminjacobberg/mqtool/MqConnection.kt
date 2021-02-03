@@ -2,17 +2,11 @@ package com.github.benjaminjacobberg.mqtool
 
 import com.amazon.sqs.javamessaging.ProviderConfiguration
 import com.amazon.sqs.javamessaging.SQSConnectionFactory
+import com.amazonaws.client.builder.AwsClientBuilder.EndpointConfiguration
+import com.amazonaws.services.sqs.AmazonSQSClientBuilder
 import com.ibm.mq.jms.MQQueueConnectionFactory
 import com.ibm.msg.client.wmq.WMQConstants
 import javax.jms.ConnectionFactory
-import com.amazonaws.services.sqs.AmazonSQSClientBuilder
-import com.amazonaws.client.builder.AwsClientBuilder.EndpointConfiguration
-
-
-
-
-
-
 
 
 open class MqConnection {
@@ -26,12 +20,12 @@ open class MqConnection {
     }
 
     private fun sqsConnectionFactory(connectionInformation: ConnectionInformation): SQSConnectionFactory {
-        val builder = AmazonSQSClientBuilder.standard()
-        builder.setEndpointConfiguration(EndpointConfiguration("http://localhost:4576", "us-east-1"))
+        val amazonSQSClientBuilder = AmazonSQSClientBuilder.standard()
+        amazonSQSClientBuilder.setEndpointConfiguration(EndpointConfiguration("http://localhost:4576", "us-east-1"))
 
         return SQSConnectionFactory(
                 ProviderConfiguration(),
-                AmazonSQSClientBuilder.defaultClient()
+                amazonSQSClientBuilder
         )
     }
 
