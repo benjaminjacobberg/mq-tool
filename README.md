@@ -19,6 +19,8 @@ docker-compose up
 ```
 * Open your web browser and navigate to `localhost:7070/`
 
+![alt text](./images/ui-screenshot.png)
+
 SUCCESS!
 
 COMMANDS
