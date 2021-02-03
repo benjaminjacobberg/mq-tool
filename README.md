@@ -6,6 +6,21 @@ SUMMARY
 
 This is a very simple web application for performing basic operations on a queue.
 
+GETTING STARTED
+---------------
+
+* Start the message broker
+```shell
+docker-compose up
+```
+* Start the app
+```shell
+./mvnw spring-boot:run
+```
+* Open your web browser and navigate to `localhost:7070/`
+
+SUCCESS!
+
 COMMANDS
 --------
 
