@@ -1,11 +1,11 @@
-package com.github.benjaminjacobberg.ibmmqtool
+package com.github.benjaminjacobberg.mqtool
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class IbmMqToolApplication
+class MqToolApplication
 
 fun main(args: Array<String>) {
-    runApplication<IbmMqToolApplication>(*args)
+    runApplication<MqToolApplication>(*args)
 }

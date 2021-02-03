@@ -1,34 +1,37 @@
-IBM MQ Tool
-===========
-
-Write message
-```bash
-$ curl -v -w "\n" -d '{"host":"localhost", "port":1414, "channel":"DEV.ADMIN.SVRCONN", "qm":"QM1", "userId":"admin", "password":"passw0rd", "queue":"DEV.QUEUE.1", "body":"test body"}' -H "Content-Type: application/json" -X POST http://localhost:7070/message
-```
-
-List messages
-```bash
-$ curl -v -w "\n" 'localhost:7070/message?size=1&host=localhost&port=1414&channel=DEV.ADMIN.SVRCONN&qm=QM1&userId=admin&password=passw0rd&queue=DEV.QUEUE.1'
-```
-
-Get stats
-```bash
-$ curl -v -w "\n" 'localhost:7070/message/stats?host=localhost&port=1414&channel=DEV.ADMIN.SVRCONN&qm=QM1&userId=admin&password=passw0rd&queue=DEV.QUEUE.1'
-```
+MQ Tool
+=======
 
 SUMMARY
 -------
 
 This is a very simple web application for performing basic operations on a queue.
 
-Current Operations:
-- Put a message
-- List messages
-- Get a message
+COMMANDS
+--------
 
-TODO Operations:
-- Delete a message
+Pull a message
+```http request
+# curl -v 'localhost:7070/message/{jmsId}?host=localhost&port=1414&channel=DEV.ADMIN.SVRCONN&qm=QM1&userId=admin&password=passw0rd&queue=DEV.QUEUE.1'
+GET localhost:7070/message/{jmsId}?host=localhost&port=1414&channel=DEV.ADMIN.SVRCONN&qm=QM1&userId=admin&password=passw0rd&queue=DEV.QUEUE.1
+```
 
-TODO Enhancements:
-- Retreive message properties and headers
-- Set property and header values when putting a message on a queue
+Get stats
+```http request
+# curl -v 'localhost:7070/message/stats?host=localhost&port=1414&channel=DEV.ADMIN.SVRCONN&qm=QM1&userId=admin&password=passw0rd&queue=DEV.QUEUE.1'
+GET localhost:7070/message/stats?host=localhost&port=1414&channel=DEV.ADMIN.SVRCONN&qm=QM1&userId=admin&password=passw0rd&queue=DEV.QUEUE.1
+```
+
+List messages
+```http request
+# curl -v 'localhost:7070/message/list?size=1&host=localhost&port=1414&channel=DEV.ADMIN.SVRCONN&qm=QM1&userId=admin&password=passw0rd&queue=DEV.QUEUE.1'
+GET localhost:7070/message/list?size=1&host=localhost&port=1414&channel=DEV.ADMIN.SVRCONN&qm=QM1&userId=admin&password=passw0rd&queue=DEV.QUEUE.1
+```
+
+Push a message
+```http request
+# curl -v -d '{"host":"localhost", "port":1414, "channel":"DEV.ADMIN.SVRCONN", "qm":"QM1", "userId":"admin", "password":"passw0rd", "queue":"DEV.QUEUE.1", "body":"test body"}' -H "Content-Type: application/json" -X POST http://localhost:7070/message
+POST http://localhost:7070/message
+Content-Type: application/json
+
+{"host":"localhost", "port":1414, "channel":"DEV.ADMIN.SVRCONN", "qm":"QM1", "userId":"admin", "password":"passw0rd", "queue":"DEV.QUEUE.1", "body":"test body"}
+```

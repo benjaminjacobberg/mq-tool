@@ -1,4 +1,4 @@
-package com.github.benjaminjacobberg.ibmmqtool
+package com.github.benjaminjacobberg.mqtool
 
 data class SendMessageDTO(val host: String,
                           val port: Int,
@@ -7,4 +7,5 @@ data class SendMessageDTO(val host: String,
                           val userId: String,
                           val password: String?,
                           val queue: String,
-                          val body: String)
+                          val body: String,
+                          val implementation: Implementation = Implementation.IBM_MQ)

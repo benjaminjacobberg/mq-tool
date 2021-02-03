@@ -1,14 +1,14 @@
-package com.github.benjaminjacobberg.ibmmqtool
+package com.github.benjaminjacobberg.mqtool
 
 import org.springframework.stereotype.Component
-import javax.jms.ConnectionFactory
-import javax.jms.JMSContext
+import java.util.*
+import javax.jms.*
 import javax.jms.Queue
-import javax.jms.QueueBrowser
+import kotlin.collections.ArrayList
 
 
 @Component
-class MessageConsumer : IbmMqConnection() {
+class MessageConsumer : MqConnection() {
     fun scrape(size: Int, connectionInformation: ConnectionInformation): List<Message> {
         val connectionFactory: ConnectionFactory = connectionFactory(connectionInformation)
         val jmsContext: JMSContext = connectionFactory.createContext()
@@ -17,16 +17,13 @@ class MessageConsumer : IbmMqConnection() {
 
         val messages: MutableList<Message> = ArrayList()
         val enumeration = browser.enumeration
-        val mutableIterator: ArrayList<javax.jms.Message?> = enumeration.toList() as ArrayList<javax.jms.Message?>
 
-        var i: Int = 0
-        for (message: javax.jms.Message? in mutableIterator) {
-            if (i >= size) {
-                break
-            }
+        var i = 0
+        while (enumeration.hasMoreElements() && i < size) {
+            val message = enumeration.nextElement() as javax.jms.Message?
+
             val body: String = message?.getBody(String::class.java) ?: continue
-            val jmsMessageId: String = message.jmsMessageID
-            val header: MessageHeader = MessageHeader(jmsMessageId, "")
+            val header = MessageHeader(message.jmsMessageID, message.jmsCorrelationID, "${Date(message.jmsTimestamp)}")
             messages.add(Message(header, body))
             i++
         }
@@ -56,4 +53,18 @@ class MessageConsumer : IbmMqConnection() {
         return QueueInfo(depth = depth)
     }
 
+    fun pull(jmsId: String, connectionInformation: ConnectionInformation): Message? {
+        val connectionFactory: ConnectionFactory = connectionFactory(connectionInformation)
+        val jmsContext: JMSContext = connectionFactory.createContext()
+        val destination: Queue = jmsContext.createQueue("queue:///${connectionInformation.queue}?targetClient=1")
+        val consumer: JMSConsumer = jmsContext.createConsumer(destination, "JMSMessageID='$jmsId'")
+
+        val jmsMessage: javax.jms.Message? = consumer.receiveNoWait()
+        val message: Message? = jmsMessage?.let { Message(MessageHeader(it.jmsMessageID, it.jmsCorrelationID, "${Date(it.jmsTimestamp)}"), it.getBody(String::class.java)) }
+
+        consumer.close()
+        jmsContext.close()
+
+        return message
+    }
 }

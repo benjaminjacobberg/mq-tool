@@ -1,4 +1,4 @@
-package com.github.benjaminjacobberg.ibmmqtool
+package com.github.benjaminjacobberg.mqtool
 
 data class ConnectionInformation(val host: String,
                                  val port: Int,
@@ -6,4 +6,9 @@ data class ConnectionInformation(val host: String,
                                  val qm: String,
                                  val userId: String,
                                  val password: String?,
-                                 val queue: String)
+                                 val queue: String,
+                                 val implementation: Implementation = Implementation.IBM_MQ)
+
+enum class Implementation {
+    IBM_MQ, SQS
+}
