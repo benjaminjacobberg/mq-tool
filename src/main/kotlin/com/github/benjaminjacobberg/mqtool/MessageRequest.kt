@@ -1,6 +1,6 @@
 package com.github.benjaminjacobberg.mqtool
 
-data class SendMessageDTO(val host: String,
+data class MessageRequest(val host: String,
                           val port: Int,
                           val channel: String,
                           val qm: String,

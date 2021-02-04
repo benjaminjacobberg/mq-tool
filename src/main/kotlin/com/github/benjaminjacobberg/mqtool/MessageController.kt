@@ -7,9 +7,9 @@ class MessageController(private val messageService: MessageService) {
 
     @PostMapping(value = ["/message"])
     @CrossOrigin
-    fun sendMessage(@RequestBody sendMessageDTO: SendMessageDTO) {
-        val message = Message(null, sendMessageDTO.body)
-        val connectionInformation = ConnectionInformation(host = sendMessageDTO.host, port = sendMessageDTO.port, channel = sendMessageDTO.channel, qm = sendMessageDTO.qm, userId = sendMessageDTO.userId, password = sendMessageDTO.password, queue = sendMessageDTO.queue, implementation = sendMessageDTO.implementation)
+    fun sendMessage(@RequestBody messageRequest: MessageRequest) {
+        val message = Message(null, messageRequest.body)
+        val connectionInformation = ConnectionInformation(host = messageRequest.host, port = messageRequest.port, channel = messageRequest.channel, qm = messageRequest.qm, userId = messageRequest.userId, password = messageRequest.password, queue = messageRequest.queue, implementation = messageRequest.implementation)
         messageService.submit(message, connectionInformation)
     }
 
@@ -54,7 +54,7 @@ class MessageController(private val messageService: MessageService) {
                         @RequestParam(name = "userId") userId: String,
                         @RequestParam(name = "password", required = false) password: String?,
                         @RequestParam(name = "queue") queue: String,
-                        @RequestParam(name = "implementation") implementation: Implementation): QueueInfo {
+                        @RequestParam(name = "implementation") implementation: Implementation): MessageQueueInfoResponse {
         val connectionInformation = ConnectionInformation(host = host, port = port, channel = channel, qm = qm, userId = userId, password = password, queue = queue, implementation = implementation)
 
         return messageService.info(connectionInformation)
